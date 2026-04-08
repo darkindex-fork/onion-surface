@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Onion Surface</title>
+
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: monospace;
+            padding: 20px;
+        }
+
+        h1 {
+            color: red;
+            font-size: 42px;
+        }
+
+        a {
+            color: white;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: red;
+        }
+
+        button {
+            background-color: #111;
+            color: white;
+            border: 1px solid white;
+            padding: 6px 12px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: red;
+        }
+
+        .csv-btn {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 6px 12px;
+            border: 1px solid white;
+        }
+
+        .csv-btn:hover {
+            background-color: red;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>Onion Surface</h1>
+
+<form method="POST" enctype="multipart/form-data">
+    <input type="file" name="file">
+    <button type="submit">Search</button>
+</form>
+
+<a href="/download_csv" class="csv-btn">Download CSV</a>
+
+<hr>
+
+<h2>Results</h2>
+
+{% for keyword, links in results.items() %}
+    <h3>{{ keyword }}</h3>
+
+    {% if links %}
+        <ul>
+        {% for link in links %}
+            <li><a href="{{ link }}" target="_blank">{{ link }}</a></li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No results</p>
+    {% endif %}
+{% endfor %}
+
+<hr>
+
+<h2>History</h2>
+
+{% if history %}
+    {% for item in history %}
+        <div>
+            {% for kw in item %}
+                {{ kw }},
+            {% endfor %}
+        </div>
+    {% endfor %}
+{% else %}
+    <p>No history</p>
+{% endif %}
+
+<form action="/clear_history" method="POST">
+    <button>Clear History</button>
+</form>
+
+</body>
+</html>
